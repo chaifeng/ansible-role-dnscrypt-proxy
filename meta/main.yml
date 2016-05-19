@@ -1,0 +1,8 @@
+allow_duplicates: True
+dependencies:
+  - role: supervisor
+    supervisor:
+      name: "dnscrypt-proxy-{{ dnscrypt_proxy.port }}"
+      command: "{{ dnscrypt_proxy.exec }} --resolvers-list={{ dnscrypt_proxy.resolvers_list }} --loglevel=7 --local-address=127.0.0.1:{{ dnscrypt_proxy.port }} --resolver-name={{ dnscrypt_proxy.resolver }}"
+      process_name: "resolver-name={{ dnscrypt_proxy.resolver }}"
+      startsecs: 3

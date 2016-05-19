@@ -1,0 +1,17 @@
+- block:
+    - name: 'Develop tools'
+      apt: name=build-essential
+    
+    - name: 'Install dnscrypt'
+      script: install_dnscrypt-proxy.sh creates="{{ dnscrypt_proxy.exec }}"
+  when: ansible_os_family == "Debian"
+
+- block:
+    - name: Ensure dnscrypt-proxy
+      homebrew: name=dnscrypt-proxy
+  when: ansible_os_family == "Darwin"
+
+- name: Ensure dnscrypt-proxy resolvers list
+  get_url:
+    url: "https://github.com/jedisct1/dnscrypt-proxy/raw/master/dnscrypt-resolvers.csv"
+    dest: "{{ dnscrypt_proxy.resolvers_list }}"

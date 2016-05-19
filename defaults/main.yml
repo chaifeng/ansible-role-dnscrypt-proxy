@@ -1,0 +1,5 @@
+dnscrypt_proxy:
+  exec: /usr/sbin/dnscrypt-proxy
+  resolvers_list: /etc/dnscrypt-resolvers.csv
+  port: 53
+  resolver: cisco
