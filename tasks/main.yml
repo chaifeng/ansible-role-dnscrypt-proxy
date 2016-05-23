@@ -11,7 +11,12 @@
       homebrew: name=dnscrypt-proxy
   when: ansible_os_family == "Darwin"
 
-- name: Ensure dnscrypt-proxy resolvers list
-  get_url:
-    url: "https://github.com/jedisct1/dnscrypt-proxy/raw/master/dnscrypt-resolvers.csv"
-    dest: "{{ dnscrypt_proxy.resolvers_list }}"
+- block:
+    - name: Ensure default resolvers file
+      copy: src="dnscrypt-resolvers.csv" dest="{{ dnscrypt_proxy.resolvers_list }}" force=no
+    - name: Update dnscrypt-proxy resolvers list if possible
+      get_url:
+        url: "https://github.com/jedisct1/dnscrypt-proxy/raw/master/dnscrypt-resolvers.csv"
+        dest: "{{ dnscrypt_proxy.resolvers_list }}"
+        force: yes
+      ignore_errors: yes
